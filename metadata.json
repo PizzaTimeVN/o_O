@@ -1,0 +1,8 @@
+
+{
+  "name": "VoiceOrder - Hệ thống nhận đơn thông minh",
+  "description": "Ứng dụng nhận đơn tại bàn bằng giọng nói dành cho nhân viên, tích hợp Gemini AI để xử lý ngôn ngữ tự nhiên.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
