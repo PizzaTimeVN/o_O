@@ -21,7 +21,7 @@ export interface Order {
   table_number: string | null;
   note: string;
   pizza_details?: string; // New field as requested
-  items: string; // JSON string like {"p14": 1}
+  items: Record<string, number>; 
   total: number;
   payment_method: string;
   status: 'pending' | 'paid' | 'cancelled';
