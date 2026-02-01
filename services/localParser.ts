@@ -12,9 +12,9 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
 
     // Gà: Nếu nói "gà lớn/nhỏ" -> Pizza Gà Teriyaki.
     // Nếu nói "gà lắc" -> ăn vặt.
-    { regex: /gà lắc phô mai cay lớn|gà lac phô mai cay lớn|gà lắc lớn|gà lát lớn/i, id: "s7" },
-    { regex: /gà lắc phô mai cay nhỏ|gà lac phô mai cay nhỏ|gà lắc nhỏ|gà lát nhỏ/i, id: "s6" },
-    { regex: /gà lắc|gà lac|gà lát/i, id: "s6" }, // Default nhỏ
+    { regex: /gà lắc phô mai cay lớn|gà lac phô mai cay lớn|gà lắc lớn|gà lát lớn|gà lóc lớn/i, id: "s7" },
+    { regex: /gà lắc phô mai cay nhỏ|gà lac phô mai cay nhỏ|gà lắc nhỏ|gà lát nhỏ|gà lóc nhỏ/i, id: "s6" },
+    { regex: /gà lắc|gà lac|gà lát|gà lóc/i, id: "s6" }, // Default nhỏ
 
     { regex: /gà rán chiên giòn lớn|gà rán lớn/i, id: "s9" },
     { regex: /gà rán chiên giòn nhỏ|gà rán nhỏ/i, id: "s8" },
@@ -327,5 +327,6 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
