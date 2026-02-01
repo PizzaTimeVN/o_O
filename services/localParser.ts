@@ -12,9 +12,9 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
 
     // Gà: Nếu nói "gà lớn/nhỏ" -> Pizza Gà Teriyaki.
     // Nếu nói "gà lắc" -> ăn vặt.
-    { regex: /gà lắc phô mai cay lớn|gà lắc lớn/i, id: "s7" },
-    { regex: /gà lắc phô mai cay nhỏ|gà lắc nhỏ/i, id: "s6" },
-    { regex: /gà lắc/i, id: "s6" }, // Default nhỏ
+    { regex: /gà lắc phô mai cay lớn|gà lac phô mai cay lớn|gà lắc lớn|gà lát lớn/i, id: "s7" },
+    { regex: /gà lắc phô mai cay nhỏ|gà lac phô mai cay nhỏ|gà lắc nhỏ|gà lát nhỏ/i, id: "s6" },
+    { regex: /gà lắc|gà lac|gà lát/i, id: "s6" }, // Default nhỏ
 
     { regex: /gà rán chiên giòn lớn|gà rán lớn/i, id: "s9" },
     { regex: /gà rán chiên giòn nhỏ|gà rán nhỏ/i, id: "s8" },
@@ -35,7 +35,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /pizza phô mai|phô mai/i, id: "p8" },
 
     // Các loại Pizza khác
-    { regex: /thập cẩm|thập|10/i, id: "p21" },
+    { regex: /thập cẩm|thập/i, id: "p21" },
     { regex: /meat lover|yêu thịt/i, id: "p18" },
     { regex: /hải sản đặc biệt/i, id: "p23" },
     { regex: /hải sản nhỏ/i, id: "p10" }, // p10 là L, check lại logic nếu cần S
@@ -58,8 +58,8 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /bò sốt cay/i, id: "p22" },
 
     // --- MÌ Ý ---
-    { regex: /mì ý đút lò/i, id: "s10" },
-    { regex: /mì ý|mì bò bằm/i, id: "s11" }, // Mặc định là sốt bò bằm
+    { regex: /mì ý đút lò|mì ấy đút lò|/i, id: "s10" },
+    { regex: /mì ý|mì ấy|mì bò bằm/i, id: "s11" }, // Mặc định là sốt bò bằm
 
     // --- NƯỚC ---
     { regex: /trà đào/i, id: "d7" },
@@ -67,7 +67,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /trà sữa|trà thái/i, id: "d8" },
     { regex: /nước suối|nước lọc|lavie/i, id: "d3" },
     { regex: /nước ngọt ly|coca ly|pepsi ly/i, id: "d1" },
-    { regex: /nước ngọt lon|coca lon|pepsi lon/i, id: "d2" },
+    { regex: /nước ngọt lon|nước ngọt ngon|coca lon|coca ngon|pepsi lon/i, id: "d2" },
     { regex: /nước ngọt|coca|pepsi/i, id: "d1" },
     { regex: /bia|beer|local beer/i, id: "d4" },
     { regex: /đá me/i, id: "d5" },
@@ -79,9 +79,8 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /tok lắc|tokbokki/i, id: "s4" },
     { regex: /bánh mì bơ tỏi/i, id: "s5" },
     { regex: /gà sốt cay/i, id: "s1" },
-    { regex: /salad cá ngừ|salad/i, id: "s12" }, // Salad = Salad cá ngừ
-    { regex: /salad dầu giấm|dầu giấm/i, id: "s13" }, // Dầu giấm = Salad dầu giấm
-
+    { regex: /dầu dấm|dầu giấm/i, id: "s13" }, // Salad dầu giấm - ưu tiên trước
+    { regex: /sa lát|xa lát|sà lách|xa lách|xà lách|salad/i, id: "s12" }, // Default = Salad cá ngừ
     // --- COMBO ---
     { regex: /combo 1|com bo 1/i, id: "c1" },
     { regex: /combo 2|com bo 2/i, id: "c2" },
@@ -98,7 +97,9 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
 ];
 
 const TEXT_TO_NUM: Record<string, number> = {
-
+    "một": 1, "hai": 2, "ba": 3, "bốn": 4, "năm": 5, "lăm": 5,
+    "sáu": 6, "bảy": 7, "tám": 8, "chín": 9, "mười": 10,
+    "chục": 10, "mốt": 1,
     "1": 1, "2": 2, "3": 3, "4": 4, "5": 5,
     "6": 6, "7": 7, "8": 8, "9": 9, "10": 10
 };
@@ -112,8 +113,8 @@ const PIZZA_FLAVORS: Record<string, string> = {
     "xúc xích heo": "Pizza Xúc Xích Heo",
     "xúc xích đức": "Pizza Xúc Xích Đức",
     "cá ngừ": "Pizza Cá Ngừ",
-    "thịt": "Pizza thịt Xông Khói",
-    "thịt xông khói": "Pizza thịt Xông Khói",
+    "thịt": "Pizza Ba Rọi Xông Khói",
+    "thịt xông khói": "Pizza Ba Rọi Xông Khói",
     "thập cẩm": "Pizza Thập Cẩm",
     "bò sốt cay": "Pizza Bò Sốt Cay",
     "hải sản đặc biệt": "Pizza Hải Sản Đặc Biệt",
@@ -326,5 +327,3 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
-
-
