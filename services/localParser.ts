@@ -76,11 +76,11 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /khoai tây chiên lớn|khoai tây lớn/i, id: "s3" },
     { regex: /khoai tây chiên nhỏ|khoai tây nhỏ/i, id: "s2" },
     { regex: /khoai tây/i, id: "s2" },
-    { regex: /tok lắc|tokbokki/i, id: "s4" },
+    { regex: /tok lắc|tokbokki|tốc lắc|tốc|tóc/i, id: "s4" },
     { regex: /bánh mì bơ tỏi/i, id: "s5" },
     { regex: /gà sốt cay/i, id: "s1" },
     { regex: /dầu dấm|dầu giấm/i, id: "s13" }, // Salad dầu giấm - ưu tiên trước
-    { regex: /sa lát|xa lát|sà lách|xa lách|xà lách|salad/i, id: "s12" }, // Default = Salad cá ngừ
+    { regex: /sa lát|xa lát|sà lách|xa lách|xà lách|xe lát|salad/i, id: "s12" }, // Default = Salad cá ngừ
     // --- COMBO ---
     { regex: /combo 1|com bo 1/i, id: "c1" },
     { regex: /combo 2|com bo 2/i, id: "c2" },
@@ -327,6 +327,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
 
