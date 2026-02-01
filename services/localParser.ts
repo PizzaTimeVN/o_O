@@ -35,7 +35,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /pizza phô mai|phô mai/i, id: "p8" },
 
     // Các loại Pizza khác
-    { regex: /thập cẩm|thập/i, id: "p21" },
+    { regex: /thập cẩm|10 cẩm|thập/i, id: "p21" },
     { regex: /meat lover|yêu thịt/i, id: "p18" },
     { regex: /hải sản đặc biệt/i, id: "p23" },
     { regex: /hải sản nhỏ/i, id: "p10" }, // p10 là L, check lại logic nếu cần S
@@ -327,4 +327,5 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
