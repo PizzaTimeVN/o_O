@@ -66,8 +66,8 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /trà chanh/i, id: "d6" },
     { regex: /trà sữa|trà thái/i, id: "d8" },
     { regex: /nước suối|nước lọc|lavie/i, id: "d3" },
-    { regex: /nước ngọt ly|coca ly|pepsi ly/i, id: "d1" },
-    { regex: /nước ngọt lon|nước ngọt ngon|coca lon|coca ngon|pepsi lon/i, id: "d2" },
+    { regex: /nước ngọt ly|coca ly|pepsi ly|ly coca|ly nước ngọt/i, id: "d1" },
+    { regex: /nước ngọt lon|nước ngọt ngon|coca lon|coca ngon|pepsi lon|lon coca|lon nước ngọt/i, id: "d2" },
     { regex: /nước ngọt|coca|pepsi/i, id: "d1" },
     { regex: /bia|beer|local beer/i, id: "d4" },
     { regex: /đá me/i, id: "d5" },
@@ -327,6 +327,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
 
