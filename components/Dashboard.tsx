@@ -46,7 +46,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         table_number: finalOrder.table_number,
         note: finalOrder.note || '',
         pizza_details: finalOrder.pizza_details, // Save details
-        items: JSON.stringify(itemsMap),
+        items: itemsMap,
         total: calculatedTotal,
         payment_method: '', // Để trống phương thức thanh toán theo yêu cầu
         status: 'pending',
