@@ -25,9 +25,9 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /pizza gà teriyaki|gà teriyaki|gà te/i, id: "p9" }, // Default L nếu nói đầy đủ
 
     // Bò
-    { regex: /pizza bò lớn|bò lớn/i, id: "p7" },
-    { regex: /pizza bò nhỏ|bò nhỏ/i, id: "p1" },
-    { regex: /pizza bò|bò/i, id: "p7" },
+    { regex: /pizza bò lớn|bò lớn|bà lớn/i, id: "p7" },
+    { regex: /pizza bò nhỏ|bò nhỏ|bà nhỏ/i, id: "p1" },
+    { regex: /pizza bò|bò|bà/i, id: "p7" },
 
     // Phô mai
     { regex: /pizza phô mai lớn|phô mai lớn/i, id: "p8" },
@@ -327,6 +327,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
 
