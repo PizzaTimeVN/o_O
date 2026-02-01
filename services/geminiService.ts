@@ -93,8 +93,8 @@ TRẢ VỀ JSON DUY NHẤT: { "items": [{ "id": string, "quantity": number, "ext
     };
   }).filter((i: any) => i !== null);
 
-  return {
-    table_number: "",
-    items: hydratedItems
-  };
+return {
+  table_number: "",
+  items: itemsMap
+};
 };
