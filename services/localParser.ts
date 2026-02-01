@@ -43,7 +43,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /xúc xích heo lớn/i, id: "p11" },
     { regex: /xúc xích heo nhỏ/i, id: "p4" },
     { regex: /xúc xích heo/i, id: "p11" },
-    { regex: /nấm rau củ/i, id: "p12" },
+    { regex: /nấm rau củ|nắm rau củ/i, id: "p12" },
     { regex: /xúc xích đức/i, id: "p13" },
     { regex: /cá ngừ lớn/i, id: "p14" },
     { regex: /cá ngừ nhỏ/i, id: "p5" },
@@ -51,11 +51,11 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /thịt xông khói lớn|thịt lớn/i, id: "p15" },
     { regex: /thịt xông khói nhỏ|thịt nhỏ/i, id: "p6" },
     { regex: /thịt/i, id: "p15" },
-    { regex: /salami|xúc xích ý/i, id: "p16" },
+    { regex: /salami|xúc xích ý|xúc xích ấy/i, id: "p16" },
     { regex: /phô mai tươi|tươi/i, id: "p17" },
     { regex: /tôm thanh cua/i, id: "p19" },
     { regex: /khô gà|lạp xưởng/i, id: "p20" },
-    { regex: /bò sốt cay|bò cay/i, id: "p22" },
+    { regex: /bò sốt cay|cay|cây/i, id: "p22" },
 
     // --- MÌ Ý ---
     { regex: /mì ý đút lò|mì ấy đút lò/i, id: "s10" },
@@ -328,6 +328,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
 
