@@ -69,7 +69,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /nước ngọt ly|coca ly|pepsi ly|ly coca|ly nước ngọt/i, id: "d1" },
     { regex: /nước ngọt lon|nước ngọt ngon|coca lon|coca ngon|pepsi lon|lon coca|lon nước ngọt/i, id: "d2" },
     { regex: /nước ngọt|coca|pepsi/i, id: "d1" },
-    { regex: /bia|beer|local beer/i, id: "d4" },
+    { regex: /bia|beer/i, id: "d4" },
     { regex: /đá me/i, id: "d5" },
 
     // --- CÁC MÓN KHÁC ---
@@ -83,14 +83,14 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /dầu dấm|dầu giấm/i, id: "s13" }, // Salad dầu giấm - ưu tiên trước
     { regex: /sa lát|xa lát|sà lách|xa lách|xà lách|xe lát|salad/i, id: "s12" }, // Default = Salad cá ngừ
     // --- COMBO ---
-    { regex: /combo 1|com bo 1/i, id: "c1" },
-    { regex: /combo 2|com bo 2/i, id: "c2" },
-    { regex: /combo 3|com bo 3/i, id: "c3" },
-    { regex: /combo 4|com bo 4/i, id: "c4" },
-    { regex: /combo 5|com bo 5/i, id: "c5" },
-    { regex: /combo 6|com bo 6/i, id: "c6" },
-    { regex: /combo 7|com bo 7/i, id: "c7" },
-    { regex: /combo 8|com bo 8/i, id: "c8" },
+    { regex: /combo 1|com bo 1|com bô 1/i, id: "c1" },
+    { regex: /combo 2|com bo 2|com bô 2/i, id: "c2" },
+    { regex: /combo 3|com bo 3|com bô 3/i, id: "c3" },
+    { regex: /combo 4|com bo 4|com bô 4/i, id: "c4" },
+    { regex: /combo 5|com bo 5|com bô 5/i, id: "c5" },
+    { regex: /combo 6|com bo 6|com bô 6/i, id: "c6" },
+    { regex: /combo 7|com bo 7|com bô 7/i, id: "c7" },
+    { regex: /combo 8|com bo 8|com bô 8/i, id: "c8" },
     { regex: /combo tiệc 1/i, id: "c9" },
     { regex: /combo tiệc 2/i, id: "c10" },
     { regex: /combo tiệc 3/i, id: "c11" },
@@ -144,144 +144,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
     let tempText = processedText;
     const pizzaDetailsList: string[] = [];
 
-    // --- COMBO PARSING LOGIC ---
-    // Tìm các pattern "Combo X ... bánh Y ..."
-    // Loop qua các combo có thể có
-    const comboRegex = /(?:combo|com bo)\s+(?:tiệc\s+)?(\d+)/gi;
-    let comboMatch;
-
-    // Dùng loop while true để xử lý từng combo tìm thấy
-    // Tuy nhiên chỉnh sửa tempText trong khi loop regex global trên chính nó rất nguy hiểm.
-    // Nên ta sẽ scan 1 lần, lưu vị trí, rồi xử lý.
-    // Hoặc đơn giản hơn: Match từng cái, xử lý, mask rồi loop lại từ đầu cho đến khi không còn combo nào chưa xử lý.
-
-    // Chiến lược: Tìm Combo đầu tiên chưa bị mask (#).
-    while (true) {
-        // Reset lastIndex để tìm từ đầu
-        comboRegex.lastIndex = 0;
-        const match = comboRegex.exec(tempText);
-        if (!match) break;
-
-        // Check masked
-        if (match[0].includes('#')) {
-            // Nếu match trúng cái đã mask (ví dụ ##mbo), regex `combo` thường sẽ ko match, 
-            // nhưng `(?:combo|com bo)` thì `bo` có thể match nếu ta mask ko kỹ.
-            // Ở đây ta giả dụ mask toàn bộ "combo 1" thành "#######".
-            // Nên regex sẽ ko match lại.
-            // Tuy nhiên nếu regex.exec vẫn tìm ra cái gì đó lạ, ta skip.
-            // Thực tế loop này sẽ vô tận nếu ta ko mask.
-            // Ta sẽ dùng giải thuật tìm string index thủ công an toàn hơn regex global loop with modification.
-            break;
-        }
-
-        // Thực tế: JS Regex global loop stateful.
-        // Ta sẽ dùng string match đơn giản cho an toàn hơn.
-    }
-
-    // REWRITE: Sequential Scanning for Combos
-    // Regex tìm Combo ID
-    const foundCombos: { id: string, index: number, length: number, num: number }[] = [];
-    const scanRegex = /(?:combo|com bo)\s+(?:tiệc\s+)?(\d+)/gi;
-    let m;
-    while ((m = scanRegex.exec(tempText)) !== null) {
-        if (!m[0].includes('#')) {
-            const comboIdNum = parseInt(m[1]);
-            // Map combo num to ID constants if needed, or assume "c" + num match constants?
-            // Check constants: c1..c12 match num.
-            // Caution: "combo tiệc 1" -> c9. "Combo 1" -> c1.
-            // Logic mapping:
-            let cId = `c${comboIdNum}`;
-            if (m[0].toLowerCase().includes("tiệc")) {
-                if (comboIdNum === 1) cId = 'c9';
-                else if (comboIdNum === 2) cId = 'c10';
-                else if (comboIdNum === 3) cId = 'c11';
-                else if (comboIdNum === 4) cId = 'c12';
-            }
-
-            // Validation: Check if this ID exists in MENU_ITEMS
-            if (MENU_ITEMS.some(i => i.id === cId)) {
-                // Add to list to process
-                // Use a simplified approach: Process immediately and mask.
-
-                const startIdx = m.index;
-                const endIdx = startIdx + m[0].length;
-
-                // Add Combo to Cart
-                itemsMapV2[cId] = (itemsMapV2[cId] || 0) + 1;
-
-                // DETERMINE PIZZA SIZE
-                // Rule: Combo 7, 8 -> Small (S). Others -> Large (L).
-                let size = "Size L";
-                if (cId === "c7" || cId === "c8") size = "Size S";
-
-                // EXTRACT PIZZA FLAVORS
-                // Look ahead in tempText for "bánh [flavor]"
-                // Search window: until next "combo" or end of string.
-                const nextComboIdx = tempText.slice(endIdx).search(/(?:combo|com bo)/i);
-                const searchLimit = nextComboIdx === -1 ? tempText.length : endIdx + nextComboIdx;
-                const searchArea = tempText.substring(endIdx, searchLimit);
-
-                // Find all "bánh [flavor]" occurrences in this area
-                // Regex: /bánh\s+([a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ\s]+)/gi
-                // Use greedy matching against known flavors to be safe
-                const flavorEntries = Object.entries(PIZZA_FLAVORS);
-                // Sort by length desc to match long names first
-                flavorEntries.sort((a, b) => b[0].length - a[0].length);
-
-                let currentSearchArea = searchArea;
-                let foundFlavors = [];
-
-                // Special case for Combo 3 (2 Pizzas) or generic multiple pizza logic
-                // Just find as many "bánh [flavor]" as possible in the search area
-
-                // Check occurrences of "bánh"
-                const banhRegex = /bánh\s+/gi;
-                let banhMatch;
-                while ((banhMatch = banhRegex.exec(currentSearchArea)) !== null) {
-                    const afterBanh = currentSearchArea.substring(banhMatch.index + banhMatch[0].length);
-
-                    // Try to match a flavor
-                    for (const [key, fullName] of flavorEntries) {
-                        if (afterBanh.toLowerCase().startsWith(key)) {
-                            // SKIP "bánh mì phô mai" if it's meant to be a side dish?
-                            // User request: "combo ... bánh mì phô mai" -> parse as pizza flavor?
-                            // Assume if "bánh" keyword is used in combo context, it's a pizza flavor choice unless it's strictly a side dish ID.
-                            // But user said "combo 3 bánh bò và bánh hải sản".
-                            // If "bánh mì phô mai" is a specific side dish, does it count as a pizza choice?
-                            // Probably not unless user says "bánh pizza bánh mì phô mai" (weird).
-                            // Let's exclude specific side items if they overlap?
-                            // "bánh mì phô mai" is mapped to "Bánh Mì Phô Mai". If it's not a pizza, maybe we assume user made a mistake or wants it as side?
-                            // For now, assume all keys in PIZZA_FLAVORS are valid.
-
-                            // FOUND A FLAVOR
-                            foundFlavors.push(fullName);
-
-                            // Add to details
-                            pizzaDetailsList.push(`${fullName} (${size})`);
-
-                            // Mask this part in tempText to avoid double counting
-                            // Calculate absolute position
-                            const absStart = endIdx + banhMatch.index;
-                            const absEnd = absStart + banhMatch[0].length + key.length;
-                            const maskLen = absEnd - absStart;
-                            tempText = tempText.substring(0, absStart) + "#".repeat(maskLen) + tempText.substring(absEnd);
-
-                            break; // Stop looking for flavors for THIS "bánh" instance
-                        }
-                    }
-                }
-
-                // Mask the Combo itself
-                const comboMaskLen = m[0].length;
-                tempText = tempText.substring(0, m.index) + "#".repeat(comboMaskLen) + tempText.substring(m.index + comboMaskLen);
-
-                // Restart main loop since tempText changed structure (indices shifted? No, masking keeps length).
-                // Regex state might be invalid though.
-                scanRegex.lastIndex = 0;
-            }
-        }
-    }
-
+ 
     // --- STANDARD ITEM PARSING (Remaining) ---
     for (const entry of KEYWORD_MAP) {
         const regex = new RegExp(entry.regex.source, 'gi');
@@ -328,6 +191,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
 
