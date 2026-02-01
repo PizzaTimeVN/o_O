@@ -58,7 +58,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /bò sốt cay/i, id: "p22" },
 
     // --- MÌ Ý ---
-    { regex: /mì ý đút lò|mì ấy đút lò|/i, id: "s10" },
+    { regex: /mì ý đút lò|mì ấy đút lò/i, id: "s10" },
     { regex: /mì ý|mì ấy|mì bò bằm/i, id: "s11" }, // Mặc định là sốt bò bằm
 
     // --- NƯỚC ---
@@ -327,3 +327,4 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
