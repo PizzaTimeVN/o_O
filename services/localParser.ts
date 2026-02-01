@@ -48,9 +48,9 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /cá ngừ lớn/i, id: "p14" },
     { regex: /cá ngừ nhỏ/i, id: "p5" },
     { regex: /cá ngừ/i, id: "p14" },
-    { regex: /ba rọi xông khói lớn|ba rọi lớn/i, id: "p15" },
-    { regex: /ba rọi xông khói nhỏ|ba rọi nhỏ/i, id: "p6" },
-    { regex: /ba rọi/i, id: "p15" },
+    { regex: /thịt xông khói lớn|thịt lớn/i, id: "p15" },
+    { regex: /thịt xông khói nhỏ|thịt nhỏ/i, id: "p6" },
+    { regex: /thịt/i, id: "p15" },
     { regex: /salami/i, id: "p16" },
     { regex: /phô mai tươi/i, id: "p17" },
     { regex: /tôm thanh cua/i, id: "p19" },
@@ -98,9 +98,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
 ];
 
 const TEXT_TO_NUM: Record<string, number> = {
-    "một": 1, "hai": 2, "ba": 3, "bốn": 4, "năm": 5, "lăm": 5,
-    "sáu": 6, "bảy": 7, "tám": 8, "chín": 9, "mười": 10,
-    "chục": 10, "mốt": 1,
+
     "1": 1, "2": 2, "3": 3, "4": 4, "5": 5,
     "6": 6, "7": 7, "8": 8, "9": 9, "10": 10
 };
@@ -114,8 +112,8 @@ const PIZZA_FLAVORS: Record<string, string> = {
     "xúc xích heo": "Pizza Xúc Xích Heo",
     "xúc xích đức": "Pizza Xúc Xích Đức",
     "cá ngừ": "Pizza Cá Ngừ",
-    "ba rọi": "Pizza Ba Rọi Xông Khói",
-    "ba rọi xông khói": "Pizza Ba Rọi Xông Khói",
+    "thịt": "Pizza thịt Xông Khói",
+    "thịt xông khói": "Pizza thịt Xông Khói",
     "thập cẩm": "Pizza Thập Cẩm",
     "bò sốt cay": "Pizza Bò Sốt Cay",
     "hải sản đặc biệt": "Pizza Hải Sản Đặc Biệt",
@@ -328,4 +326,5 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
