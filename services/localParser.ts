@@ -15,6 +15,7 @@ const KEYWORD_MAP: { regex: RegExp; id: string }[] = [
     { regex: /gà lắc phô mai cay lớn|gà lac phô mai cay lớn|gà lắc lớn|gà lát lớn|gà lóc lớn/i, id: "s7" },
     { regex: /gà lắc phô mai cay nhỏ|gà lac phô mai cay nhỏ|gà lắc nhỏ|gà lát nhỏ|gà lóc nhỏ/i, id: "s6" },
     { regex: /gà lắc|gà lac|gà lát|gà lóc/i, id: "s6" }, // Default nhỏ
+    { regex: /gà sốt cay/i, id: "s1" },
 
     { regex: /gà rán chiên giòn lớn|gà rán lớn/i, id: "s9" },
     { regex: /gà rán chiên giòn nhỏ|gà rán nhỏ/i, id: "s8" },
@@ -191,6 +192,7 @@ export const parseVoiceCommandLocal = async (transcript: string) => {
         pizza_details: pizza_details
     };
 };
+
 
 
 
