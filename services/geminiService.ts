@@ -79,17 +79,10 @@ TRẢ VỀ JSON DUY NHẤT: { "items": [{ "id": string, "quantity": number, "ext
     
     // Xử lý extra_toppings: đảm bảo nó là object, không phải string
     let extraToppings = item.extra_toppings;
-    if (extraToppings) {
-      // Nếu AI trả về string thay vì object, parse nó
-      if (typeof extraToppings === 'string') {
-        try {
-          extraToppings = JSON.parse(extraToppings);
-        } catch (e) {
-          console.warn('Failed to parse extra_toppings:', extraToppings);
-          extraToppings = {};
-        }
-      }
-    }
+    if (extraToppings && typeof extraToppings === 'string') {
+    // Parse string thành object
+    extraToppings = JSON.parse(extraToppings);
+  }
     
     return {
       id: item.id,
